@@ -11,6 +11,15 @@ namespace PicApp.Pages
 {
     public partial class MainPage : ContentPage
     {
+        private const string NEW_PASS_MESS = "Придумайте 4-х значный пароль";
+        private const string ENTER_PASS_MESS = "Введите пароль для входа";
+        private const string REPEAT_PASS_MESS = "Подтвердите пароль";
+        private const string INCORRECT_DATA_INFO = "Введите корректные данные!";
+        private const string WRONG_PASS_INFO = "Неверный пароль!";
+        private const string REMOVE_PASS_INFO = "Пароль сброшен!";
+
+        private string _pin; 
+
         public MainPage()
         {
             InitializeComponent();            
@@ -18,22 +27,40 @@ namespace PicApp.Pages
 
         protected override void OnAppearing()
         {
-            string pin = Preferences.Get("PIN", null);
-            if (pin != null)
-                titleLabel.Text = pin;
+            pinEntry.Text = null;
+            messageLabel.Text = null;
+            _pin = Preferences.Get("PIN", null);
+            titleLabel.Text = _pin == null ? NEW_PASS_MESS : ENTER_PASS_MESS;
 
             base.OnAppearing();
         }
 
-        private void CheckButton_Clicked(object sender, EventArgs e)
+        private async void CheckButton_Clicked(object sender, EventArgs e)
         {
-            if(!string.IsNullOrEmpty(pinEntry.Text) && pinEntry.Text.Length == 4)
+            if (string.IsNullOrEmpty(pinEntry.Text) || pinEntry.Text.Length != 4)
             {
-                Preferences.Set("PIN", pinEntry.Text);
-                titleLabel.Text = pinEntry.Text;
+                messageLabel.Text = INCORRECT_DATA_INFO;
+                return;
+            }
+
+            if (_pin == null)
+            {
+                _pin = pinEntry.Text;
+                pinEntry.Text = null;
+                titleLabel.Text = REPEAT_PASS_MESS;
+            }
+            else if (_pin == pinEntry.Text)
+            {
+                if(Preferences.Get("PIN", null) == null) Preferences.Set("PIN", pinEntry.Text);
+                
+                await Navigation.PushAsync(new ImagesPage());
+                titleLabel.Text = ENTER_PASS_MESS;
             }
             else
-                titleLabel.Text = "Введите корректные данные!";
+            {
+                pinEntry.Text = null;
+                messageLabel.Text = WRONG_PASS_INFO;
+            }
         }
 
         private void NumberButton_Clicked(object sender, EventArgs e)
@@ -43,9 +70,20 @@ namespace PicApp.Pages
         }
 
         private void RemoveButton_Clicked(object sender, EventArgs e)
-        {           
+        { 
             if(!string.IsNullOrEmpty(pinEntry.Text))
                 pinEntry.Text = pinEntry.Text.Substring(0, pinEntry.Text.Length - 1);
         }
+
+        private void ClearPassButton_Clicked(object sender, EventArgs e)
+        {
+            Preferences.Remove("PIN");
+            _pin = null;
+            pinEntry.Text = null;
+            titleLabel.Text = NEW_PASS_MESS;
+            messageLabel.Text = REMOVE_PASS_INFO;
+        }
+
+        private void PinEntry_TextChanged(object sender, TextChangedEventArgs e) => messageLabel.Text = null;
     }
 }
