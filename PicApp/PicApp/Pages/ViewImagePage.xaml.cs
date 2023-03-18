@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PicApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,14 @@ namespace PicApp.Pages
 {
     public partial class ViewImagePage : ContentPage
     {
-        public ViewImagePage()
+        public Picture Picture { get; set; }
+
+        public ViewImagePage(Picture picture)
         {
             InitializeComponent();
+            Picture = picture;
+
+            BindingContext = this;
         }
     }
 }

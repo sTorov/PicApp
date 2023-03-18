@@ -4,15 +4,8 @@
              xmlns:local="clr-namespace:PicApp.Pages"
              x:Class="PicApp.Pages.ImagesPage">
 
-    <StackLayout>
-        <ListView ItemsSource="{Binding Pictures}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ImageCell Text="{Binding Name}"
-                               ImageSource="{Binding FullPath}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+    <StackLayout x:Name="stackLayout">
+        <ScrollView x:Name="scrollView"/>
     </StackLayout>
     
 </ContentPage>

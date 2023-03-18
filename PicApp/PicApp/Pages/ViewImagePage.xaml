@@ -1,6 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PicApp.Pages.ViewImagePage">
+             xmlns:local="clr-namespace:PicApp.Pages"
+             x:Class="PicApp.Pages.ViewImagePage"
+             Title="{Binding Picture.Name}">
 
+    <StackLayout x:Name="stackLayout" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                 BackgroundColor="Black">
+        <Image Source="{Binding Picture.FullPath}"
+               HeightRequest="{Binding Source={x:Reference stackLayout}, Path=Height}"/>
+    </StackLayout>
 </ContentPage>
