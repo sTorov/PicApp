@@ -17,23 +17,30 @@ namespace PicApp.Pages
     {
         public ObservableCollection<Picture> Pictures { get; set; }
 
+        private StackLayout _selectedItem;
+
         public ImagesPage()
         {
             InitializeComponent();
+            BindingContext = this;
         }
 
         protected override void OnAppearing()
+        {
+            GetPicturesPaths();
+            CreateGallery();
+            Pictures.CollectionChanged += (sender, e) => CreateGallery();
+
+            base.OnAppearing();
+        }
+
+        private void GetPicturesPaths()
         {
             //@"/storage/emulated/0/DCIM/Camera" @"/storage/emulated/0/Pictures"
             var fileList = new DirectoryInfo(@"/storage/emulated/0/Pictures").GetFiles();
             var pictureList = App.Mapper.Map<Picture[]>(fileList);
 
             Pictures = new ObservableCollection<Picture>(pictureList);
-            //BindingContext = this;
-
-            CreateGallery();
-
-            base.OnAppearing();
         }
 
         private void CreateGallery()
@@ -49,27 +56,27 @@ namespace PicApp.Pages
 
             var countRows = Pictures.Count / grid.ColumnDefinitions.Count;
 
-            for(int i = 1; i < countRows + 1; i++)
+            for(int i = 0; i < countRows; i++)
                 grid.RowDefinitions.Add(new RowDefinition {  Height = GridLength.Star });
 
             int currentColumn = 0;
             int currentRow = 0;
 
-            foreach(Picture picture in Pictures)
+            foreach (Picture picture in Pictures)
             {
                 var card = new StackLayout
                 {
                     
                     Children =
                     {
-                        new Image{ Source = picture.FullPath, HeightRequest = 150 },
+                        new Image { Source = picture.FullPath, HeightRequest = 150 },
                         new Label{ Text = picture.Name }
                     }
                 };
                 grid.Children.Add(card, currentColumn, currentRow);
 
                 var recognizer = new TapGestureRecognizer();
-                recognizer.Tapped += async (sender, e) => await Navigation.PushAsync(new ViewImagePage(picture));
+                recognizer.Tapped += TappedImage;
                 card.GestureRecognizers.Add(recognizer);
 
                 currentColumn++;
@@ -81,6 +88,38 @@ namespace PicApp.Pages
             }
 
             scrollView.Content = grid;
+        }
+
+        private void TappedImage(object sender, EventArgs e)
+        {
+            var stack = (StackLayout)sender;
+            VisualStateManager.GoToState(stack, "Focused");
+            if (_selectedItem != null) VisualStateManager.GoToState(_selectedItem, "Normal");
+            _selectedItem = stack;
+        }
+
+        private async void Go(object sender, EventArgs e)
+        {
+            if (_selectedItem == null)
+                return;
+
+            var imgPath = new ImageSourceConverter().ConvertToInvariantString((_selectedItem.Children[0] as Image).Source);
+            var picture = App.Mapper.Map<Picture>(new FileInfo(imgPath));
+
+            await Navigation.PushAsync(new ViewImagePage(picture));
+        }
+
+        private void Delete(object sender, EventArgs e)
+        {
+            if (_selectedItem == null)
+                return;
+
+            var imgPath = new ImageSourceConverter().ConvertToInvariantString((_selectedItem.Children[0] as Image).Source);
+            if(File.Exists(imgPath))
+                File.Delete(imgPath);
+
+            var deletedPic = App.Mapper.Map<Picture>(new FileInfo(imgPath));
+            Pictures.Remove(deletedPic);
         }
     }
 }

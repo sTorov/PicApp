@@ -1,11 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:PicApp.Pages"
-             x:Class="PicApp.Pages.ImagesPage">
+             x:Class="PicApp.Pages.ImagesPage"
+             NavigationPage.HasNavigationBar="False">
 
-    <StackLayout x:Name="stackLayout">
-        <ScrollView x:Name="scrollView"/>
+    <StackLayout x:Name="stackLayout" BackgroundColor="LightGray">
+        <ScrollView x:Name="scrollView" HeightRequest="750" Padding="10" BackgroundColor="LightGray"/>
+
+        <Grid ColumnDefinitions="*, *" BackgroundColor="Black">
+            <Button Grid.Column="0" Text="Просмотреть" Margin="10" Clicked="Go"/>
+            <Button Grid.Column="1" Text="Удалить" Margin="10" Clicked="Delete"/>
+        </Grid>
     </StackLayout>
     
 </ContentPage>
