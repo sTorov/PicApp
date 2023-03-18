@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PicApp.Pages.MainPage">
+
+    <Grid RowDefinitions="*, *, *, *, *, *" ColumnDefinitions="*, *, *"
+          HorizontalOptions="Center" VerticalOptions="Center">
+        <Label x:Name="titleLabel" Text="Example" 
+               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+               HorizontalOptions="Center"/>
+        <Grid ColumnDefinitions="80*, 20*"
+                     Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+            <Entry x:Name="pinEntry" Placeholder="PIN"
+                   Grid.Column="0"
+                   VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                   IsPassword="False"
+                   MaxLength="4"
+                   IsEnabled="False"/>
+            <Button x:Name="removeButton" Text="C"
+                    Grid.Column="1"
+                    Clicked="RemoveButton_Clicked"/>
+        </Grid>
+        <Button x:Name="oneButton" Text="1"
+                Grid.Row="2" Grid.Column="0"
+                Clicked="NumberButton_Clicked"/>
+        <Button x:Name="twoButton" Text="2"
+                Grid.Row="2" Grid.Column="1"
+                Clicked="NumberButton_Clicked"/>
+        <Button x:Name="threeButton" Text="3"
+                Grid.Row="2" Grid.Column="2"
+                Clicked="NumberButton_Clicked"/>
+        <Button x:Name="fourButton" Text="4"
+                Grid.Row="3" Grid.Column="0"
+                Clicked="NumberButton_Clicked"/>
+        <Button x:Name="fiveButton" Text="5"
+                Grid.Row="3" Grid.Column="1"
+                Clicked="NumberButton_Clicked"/>
+        <Button x:Name="sixButton" Text="6"
+                Grid.Row="3" Grid.Column="2"
+                Clicked="NumberButton_Clicked"/>
+        <Button x:Name="sevenButton" Text="7"
+                Grid.Row="4" Grid.Column="0"
+                Clicked="NumberButton_Clicked"/>
+        <Button x:Name="eightButton" Text="8"
+                Grid.Row="4" Grid.Column="1"
+                Clicked="NumberButton_Clicked"/>
+        <Button x:Name="nineButton" Text="9"
+                Grid.Row="4" Grid.Column="2"
+                Clicked="NumberButton_Clicked"/>
+        <Button x:Name="zeroButton" Text="0"
+                Grid.Row="5" Grid.Column="1"
+                Clicked="NumberButton_Clicked"/>
+        <Button x:Name="checkButton" Text="OK"
+                Grid.Row="5" Grid.Column="2"
+                Clicked="CheckButton_Clicked"/>
+    </Grid>
+    
+</ContentPage>
