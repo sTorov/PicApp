@@ -42,7 +42,7 @@ namespace PicApp.Pages
                 messageLabel.Text = INCORRECT_DATA_INFO;
                 return;
             }
-
+            
             if (_pin == null)
             {
                 _pin = pinEntry.Text;
