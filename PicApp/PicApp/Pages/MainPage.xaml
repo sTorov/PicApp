@@ -2,27 +2,43 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PicApp.Pages.MainPage"
-             NavigationPage.HasNavigationBar="False">
+             xmlns:ext="clr-namespace:PicApp.Extensions"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#222">
 
-    <Grid RowDefinitions="*, *, *, *, *, *" ColumnDefinitions="*, *, *"
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <x:Double x:Key="ButtonTextSize">17</x:Double>
+            <Style TargetType="Button">
+                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="FontSize" Value="Large"/>
+                <Setter Property="BackgroundColor" Value="{ext:Argb A=30,R=150,G=150,B=150}"/>
+                <Setter Property="TextColor" Value="WhiteSmoke"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <Grid RowDefinitions="*, *, *, *, *, *" ColumnDefinitions="*, *, *" ColumnSpacing="10" RowSpacing="10"
           HorizontalOptions="Center" VerticalOptions="Center">
         <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-            <Label x:Name="titleLabel" 
-               HorizontalOptions="Center"/>
+            <Label x:Name="titleLabel" FontSize="Subtitle"
+               HorizontalOptions="Center" TextColor="{ext:Argb A=255,R=200,G=200,B=200}"/>
             <Label x:Name="messageLabel" HorizontalOptions="Center"
-                   HeightRequest="12" FontSize="10" TextColor="IndianRed"/>
+                   FontSize="12" TextColor="IndianRed"/>
         </StackLayout>
         <Grid ColumnDefinitions="80*, 20*"
                      Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
-            <Entry x:Name="pinEntry" Placeholder="PIN"
+            <Entry x:Name="pinEntry"
+                   FontSize="Large"
                    Grid.Column="0"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
                    IsPassword="True"
                    MaxLength="4"
                    IsEnabled="False"
                    TextChanged="PinEntry_TextChanged"/>
-            <Button x:Name="removeButton" Text="C"
+            <Button x:Name="removeButton" Text="⌫"
                     Grid.Column="1"
+                    FontSize="{StaticResource ButtonTextSize}"
                     Clicked="RemoveButton_Clicked"/>
         </Grid>
         <Button x:Name="oneButton" Text="1"
@@ -55,10 +71,10 @@
         <Button x:Name="zeroButton" Text="0"
                 Grid.Row="5" Grid.Column="1"
                 Clicked="NumberButton_Clicked"/>
-        <Button x:Name="checkButton" Text="OK"
+        <Button x:Name="checkButton" Text="✓" FontSize="{StaticResource ButtonTextSize}"
                 Grid.Row="5" Grid.Column="2"
                 Clicked="CheckButton_Clicked"/>
-        <Button x:Name="clearPassButton" Text="R"
+        <Button x:Name="clearPassButton" Text="Reset" TextTransform="None" FontSize="{StaticResource ButtonTextSize}"
                 Grid.Row="5" Grid.Column="0"
                 Clicked="ClearPassButton_Clicked"/>
     </Grid>

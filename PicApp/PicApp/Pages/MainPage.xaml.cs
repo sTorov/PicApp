@@ -75,13 +75,18 @@ namespace PicApp.Pages
                 pinEntry.Text = pinEntry.Text.Substring(0, pinEntry.Text.Length - 1);
         }
 
-        private void ClearPassButton_Clicked(object sender, EventArgs e)
+        private async void ClearPassButton_Clicked(object sender, EventArgs e)
         {
-            Preferences.Remove("PIN");
-            _pin = null;
-            pinEntry.Text = null;
-            titleLabel.Text = NEW_PASS_MESS;
-            messageLabel.Text = REMOVE_PASS_INFO;
+            bool answer = await DisplayAlert(null, "Сбросить пароль?", "Yes", "No");
+
+            if(answer)
+            {
+                Preferences.Remove("PIN");
+                _pin = null;
+                pinEntry.Text = null;
+                titleLabel.Text = NEW_PASS_MESS;
+                messageLabel.Text = REMOVE_PASS_INFO;
+            }
         }
 
         private void PinEntry_TextChanged(object sender, TextChangedEventArgs e) => messageLabel.Text = null;
