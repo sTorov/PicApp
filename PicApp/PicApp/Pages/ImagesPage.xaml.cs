@@ -27,20 +27,16 @@ namespace PicApp.Pages
 
         protected override void OnAppearing()
         {
-            GetPicturesPaths();
+            //@"/storage/emulated/0/DCIM/Camera" @"/storage/emulated/0/Pictures"
+            var fileList = new DirectoryInfo(@"/storage/emulated/0/Pictures/Screenshots").GetFiles();
+            var pictureList = App.Mapper.Map<Picture[]>(fileList);
+
+            Pictures = new ObservableCollection<Picture>(pictureList);
+
             CreateGallery();
             Pictures.CollectionChanged += (sender, e) => CreateGallery();
 
             base.OnAppearing();
-        }
-
-        private void GetPicturesPaths()
-        {
-            //@"/storage/emulated/0/DCIM/Camera" @"/storage/emulated/0/Pictures"
-            var fileList = new DirectoryInfo(@"/storage/emulated/0/Pictures").GetFiles();
-            var pictureList = App.Mapper.Map<Picture[]>(fileList);
-
-            Pictures = new ObservableCollection<Picture>(pictureList);
         }
 
         private void CreateGallery()
@@ -115,11 +111,13 @@ namespace PicApp.Pages
                 return;
 
             var imgPath = new ImageSourceConverter().ConvertToInvariantString((_selectedItem.Children[0] as Image).Source);
-            if(File.Exists(imgPath))
+            if (File.Exists(imgPath))
                 File.Delete(imgPath);
+            
 
             var deletedPic = App.Mapper.Map<Picture>(new FileInfo(imgPath));
             Pictures.Remove(deletedPic);
+            _selectedItem = null;
         }
     }
 }
