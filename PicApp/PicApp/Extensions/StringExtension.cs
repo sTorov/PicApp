@@ -4,8 +4,14 @@ using System.Text;
 
 namespace PicApp.Extensions
 {
+    /// <summary>
+    /// Расширения для строк
+    /// </summary>
     public static class StringExtension
     {
+        /// <summary>
+        /// Метод для проверки имени полученного файла (является ли файл изображением)
+        /// </summary>
         public static bool IsPicture(this string str) 
         {
             str = str.ToLower();

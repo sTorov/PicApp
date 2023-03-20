@@ -7,7 +7,10 @@ using Xamarin.Forms;
 
 namespace PicApp.Extensions
 {
-    internal class ArgbExtension : IMarkupExtension
+    /// <summary>
+    /// Расширение для разметки. Позволяет задавать цвет при помощи параметров RED, GREEN, BLUE, ALPHA
+    /// </summary>
+    public class ArgbExtension : IMarkupExtension
     {
         public int R { get; set; }
         public int G { get; set; }

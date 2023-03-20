@@ -8,22 +8,25 @@ using Xamarin.Forms.Xaml;
 
 namespace PicApp
 {
+    /// <summary>
+    /// Основной класс приложения
+    /// </summary>
     public partial class App : Application
     {
         public static IMapper Mapper { get; private set; }
-
-        private NavigationPage _navigationPage;
 
         public App()
         {
             InitializeComponent();
 
             Mapper = GetMapper();
-            _navigationPage = new NavigationPage(new MainPage());
 
-            MainPage = _navigationPage;
+            MainPage = new NavigationPage(new MainPage());
         }
 
+        /// <summary>
+        /// Получение объекта-маппера
+        /// </summary>
         private static IMapper GetMapper()
         {
             var config = new MapperConfiguration(conf =>
@@ -42,7 +45,7 @@ namespace PicApp
 
         protected override void OnSleep()
         {
-            _navigationPage.CurrentPage.Navigation.PushAsync(new MainPage(true));
+            MainPage.Navigation.PushAsync(new MainPage(true));
         }
 
         protected override void OnResume()

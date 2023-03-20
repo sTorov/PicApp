@@ -10,6 +10,9 @@ using Xamarin.Forms.Xaml;
 
 namespace PicApp.Pages
 {
+    /// <summary>
+    /// Страница для отображения выбраной картинки
+    /// </summary>
     public partial class ViewImagePage : ContentPage
     {
         public Picture Picture { get; set; }

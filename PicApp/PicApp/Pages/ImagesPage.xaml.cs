@@ -14,10 +14,14 @@ using Xamarin.Forms.Xaml;
 
 namespace PicApp.Pages
 {
+    /// <summary>
+    /// Страница для отображения списка картинок
+    /// </summary>
     public partial class ImagesPage : ContentPage
     {
         public ObservableCollection<Picture> Pictures { get; set; }
 
+        private const string IMAGES_DIR = @"/storage/emulated/0/DCIM/Camera";
         private StackLayout _selectedItem;
 
         public ImagesPage()
@@ -31,21 +35,39 @@ namespace PicApp.Pages
 
             #region SimplePath
 
-            //@"/storage/emulated/0/DCIM/Camera" @"/storage/emulated/0/Pictures" @"/storage/emulated/0/Pictures/Screenshots"
+            //@"/storage/emulated/0/DCIM/Camera"
+            //@"/storage/emulated/0/Pictures"
+            //@"/storage/emulated/0/Pictures/Screenshots"
 
             #endregion
 
-            var fileList = new DirectoryInfo(@"/storage/emulated/0/Pictures/Screenshots").GetFiles();
-            var pictureList = App.Mapper.Map<Picture[]>(fileList);
+            if (Directory.Exists(IMAGES_DIR))
+            {
+                var fileList = new DirectoryInfo(IMAGES_DIR).GetFiles();
+                var pictureList = App.Mapper.Map<Picture[]>(fileList);
 
-            Pictures = new ObservableCollection<Picture>(pictureList.Where(p => p.Name.IsPicture()));
+                Pictures = new ObservableCollection<Picture>(pictureList.Where(p => p.Name.IsPicture()));
 
-            CreateGallery();
-            Pictures.CollectionChanged += (sender, e) => CreateGallery();
+                CreateGallery();
+                Pictures.CollectionChanged += (sender, e) => CreateGallery();
+            }
+            else
+            {
+                Content = new Label
+                {
+                    Text = $"Папка\n{IMAGES_DIR}\nне найдена!",
+                    FontSize = 15,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                    Padding = new Thickness(15)
+                };
+            }
 
             base.OnAppearing();
         }
 
+        /// <summary>
+        /// Заполенение страницы списком изображений
+        /// </summary>
         private void CreateGallery()
         {
             var grid = new Grid
@@ -95,6 +117,9 @@ namespace PicApp.Pages
             scrollView.Content = grid;
         }
 
+        /// <summary>
+        /// Обработчик нажатия на контейнер компановки, содержащий изображение
+        /// </summary>
         private void TappedImage(object sender, EventArgs e)
         {
             var stack = (StackLayout)sender;
@@ -106,6 +131,9 @@ namespace PicApp.Pages
             _selectedItem = stack;
         }
 
+        /// <summary>
+        /// Обработчик нажатия на кнопку, открывающую изображение на отдельной странице
+        /// </summary>
         private async void Go(object sender, EventArgs e)
         {
             if (_selectedItem == null)
@@ -117,6 +145,9 @@ namespace PicApp.Pages
             await Navigation.PushAsync(new ViewImagePage(picture));
         }
 
+        /// <summary>
+        /// Обработчик нажатия на кнопку, удаляющую картинку из галереи и с устройства
+        /// </summary>
         private void Delete(object sender, EventArgs e)
         {
             if (_selectedItem == null)

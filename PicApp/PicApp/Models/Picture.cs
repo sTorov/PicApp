@@ -4,6 +4,9 @@ using System.Text;
 
 namespace PicApp.Models
 {
+    /// <summary>
+    /// Модель изображения
+    /// </summary>
     public class Picture
     {
         public string Name { get; set; }

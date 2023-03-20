@@ -16,6 +16,9 @@ using static Android.Graphics.ColorSpace;
 [assembly: ExportRenderer(typeof(Entry), typeof(CustomEntryRenderer))]
 namespace PicApp.Droid.Renderers
 {
+    /// <summary>
+    /// Класс для кастомизации элемента Entry на платформе Android
+    /// </summary>
     public class CustomEntryRenderer : EntryRenderer
     {
         public CustomEntryRenderer(Context context) : base(context)
