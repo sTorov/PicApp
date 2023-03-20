@@ -18,11 +18,12 @@ namespace PicApp.Pages
         private const string WRONG_PASS_INFO = "Неверный пароль!";
         private const string REMOVE_PASS_INFO = "Пароль сброшен!";
 
-        private string _pin; 
-
-        public MainPage()
+        private string _pin;
+        private bool _isSleeped;
+        public MainPage(bool isSleeped = false)
         {
-            InitializeComponent();            
+            InitializeComponent();
+            _isSleeped = isSleeped;
         }
 
         protected override void OnAppearing()
@@ -52,8 +53,12 @@ namespace PicApp.Pages
             else if (_pin == pinEntry.Text)
             {
                 if(Preferences.Get("PIN", null) == null) Preferences.Set("PIN", pinEntry.Text);
-                
-                await Navigation.PushAsync(new ImagesPage());
+
+                if (_isSleeped)
+                    await Navigation.PopAsync();
+                else
+                    await Navigation.PushAsync(new ImagesPage());
+
                 titleLabel.Text = ENTER_PASS_MESS;
             }
             else

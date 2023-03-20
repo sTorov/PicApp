@@ -35,7 +35,7 @@ namespace PicApp.Pages
 
             #endregion
 
-            var fileList = new DirectoryInfo(@"/storage/emulated/0/DCIM/Camera").GetFiles();
+            var fileList = new DirectoryInfo(@"/storage/emulated/0/Pictures/Screenshots").GetFiles();
             var pictureList = App.Mapper.Map<Picture[]>(fileList);
 
             Pictures = new ObservableCollection<Picture>(pictureList.Where(p => p.Name.IsPicture()));

@@ -16,7 +16,6 @@ namespace PicApp.Models
             {
                 if (Name != picture.Name) return false;
                 if (FullPath != picture.FullPath) return false;
-                if (CreateTime != picture.CreateTime) return false;
                 return true;
             }
             return false;
