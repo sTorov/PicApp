@@ -15,7 +15,6 @@ namespace PicApp.Extensions
         public int A { get; set; }
 
         public object ProvideValue(IServiceProvider serviceProvider) =>
-            Color.FromRgba(R, G, B, A);
-            
+            Color.FromRgba(R, G, B, A);            
     }
 }

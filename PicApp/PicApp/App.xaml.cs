@@ -26,7 +26,8 @@ namespace PicApp
             var config = new MapperConfiguration(conf =>
             {
                 conf.CreateMap<FileInfo, Picture>()
-                    .ForMember("FullPath", opt => opt.MapFrom(p => p.FullName));
+                    .ForMember("FullPath", opt => opt.MapFrom(p => p.FullName))
+                    .ForMember("CreateTime", opt => opt.MapFrom(p => p.CreationTime));
             });
 
             return config.CreateMapper();

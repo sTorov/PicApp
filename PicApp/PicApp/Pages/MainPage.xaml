@@ -9,12 +9,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <x:Double x:Key="ButtonTextSize">17</x:Double>
-            <Style TargetType="Button">
-                <Setter Property="CornerRadius" Value="5"/>
-                <Setter Property="FontSize" Value="Large"/>
-                <Setter Property="BackgroundColor" Value="{ext:Argb A=30,R=150,G=150,B=150}"/>
-                <Setter Property="TextColor" Value="WhiteSmoke"/>
-            </Style>
+            <Style TargetType="Button" BasedOn="{StaticResource MainButtonStyle}"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     

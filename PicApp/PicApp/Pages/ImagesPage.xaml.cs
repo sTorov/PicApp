@@ -1,4 +1,5 @@
-﻿using PicApp.Models;
+﻿using PicApp.Extensions;
+using PicApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,16 +23,22 @@ namespace PicApp.Pages
         public ImagesPage()
         {
             InitializeComponent();
-            BindingContext = this;
         }
 
         protected override void OnAppearing()
         {
-            //@"/storage/emulated/0/DCIM/Camera" @"/storage/emulated/0/Pictures"
-            var fileList = new DirectoryInfo(@"/storage/emulated/0/Pictures/Screenshots").GetFiles();
+            _selectedItem = null;
+
+            #region SimplePath
+
+            //@"/storage/emulated/0/DCIM/Camera" @"/storage/emulated/0/Pictures" @"/storage/emulated/0/Pictures/Screenshots"
+
+            #endregion
+
+            var fileList = new DirectoryInfo(@"/storage/emulated/0/DCIM/Camera").GetFiles();
             var pictureList = App.Mapper.Map<Picture[]>(fileList);
 
-            Pictures = new ObservableCollection<Picture>(pictureList);
+            Pictures = new ObservableCollection<Picture>(pictureList.Where(p => p.Name.IsPicture()));
 
             CreateGallery();
             Pictures.CollectionChanged += (sender, e) => CreateGallery();
@@ -50,7 +57,8 @@ namespace PicApp.Pages
                 }
             };
 
-            var countRows = Pictures.Count / grid.ColumnDefinitions.Count;
+            var countRows = Pictures.Count / grid.ColumnDefinitions.Count > 3 
+                ? Pictures.Count / grid.ColumnDefinitions.Count : 3;
 
             for(int i = 0; i < countRows; i++)
                 grid.RowDefinitions.Add(new RowDefinition {  Height = GridLength.Star });
@@ -62,12 +70,13 @@ namespace PicApp.Pages
             {
                 var card = new StackLayout
                 {
-                    
                     Children =
                     {
                         new Image { Source = picture.FullPath, HeightRequest = 150 },
-                        new Label{ Text = picture.Name }
-                    }
+                        new Label { Text = picture.Name }
+                    },
+                    Style = (Style)App.Current.Resources["StackLayoutVisualState"],
+                    Padding = new Thickness(10)
                 };
                 grid.Children.Add(card, currentColumn, currentRow);
 
@@ -82,14 +91,17 @@ namespace PicApp.Pages
                     currentColumn = 0;
                 }
             }
-
+            
             scrollView.Content = grid;
         }
 
         private void TappedImage(object sender, EventArgs e)
         {
             var stack = (StackLayout)sender;
-            VisualStateManager.GoToState(stack, "Focused");
+            if(stack.Equals(_selectedItem))
+                return;
+
+            VisualStateManager.GoToState(stack, "Selected");
             if (_selectedItem != null) VisualStateManager.GoToState(_selectedItem, "Normal");
             _selectedItem = stack;
         }

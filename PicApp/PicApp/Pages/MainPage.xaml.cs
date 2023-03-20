@@ -63,11 +63,7 @@ namespace PicApp.Pages
             }
         }
 
-        private void NumberButton_Clicked(object sender, EventArgs e)
-        {
-            var btn = (Button)sender;
-            pinEntry.Text += btn.Text;
-        }
+        private void NumberButton_Clicked(object sender, EventArgs e) => pinEntry.Text += (sender as Button).Text;
 
         private void RemoveButton_Clicked(object sender, EventArgs e)
         { 
@@ -77,15 +73,26 @@ namespace PicApp.Pages
 
         private async void ClearPassButton_Clicked(object sender, EventArgs e)
         {
+            void ResetPass(string message)
+            {
+                _pin = null;
+                pinEntry.Text = null;
+                titleLabel.Text = NEW_PASS_MESS;
+                messageLabel.Text = message;
+            }
+
+            if (Preferences.Get("PIN", null) == null)
+            {
+                ResetPass(null);
+                return;
+            }
+
             bool answer = await DisplayAlert(null, "Сбросить пароль?", "Yes", "No");
 
             if(answer)
             {
                 Preferences.Remove("PIN");
-                _pin = null;
-                pinEntry.Text = null;
-                titleLabel.Text = NEW_PASS_MESS;
-                messageLabel.Text = REMOVE_PASS_INFO;
+                ResetPass(REMOVE_PASS_INFO);
             }
         }
 

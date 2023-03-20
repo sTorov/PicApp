@@ -1,16 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ext="clr-namespace:PicApp.Extensions"
              x:Class="PicApp.Pages.ImagesPage"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#222">
 
-    <StackLayout x:Name="stackLayout" BackgroundColor="LightGray">
-        <ScrollView x:Name="scrollView" HeightRequest="750" Padding="10" BackgroundColor="LightGray"/>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button" BasedOn="{StaticResource MainButtonStyle}">
+                <Setter Property="BackgroundColor" Value="{ext:Argb A=200,R=150,G=150,B=150}"/>
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="FontSize" Value="15"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <Grid RowDefinitions="90*, 10*">
+        <ScrollView x:Name="scrollView" Padding="10" Grid.Row="0"/>
 
-        <Grid ColumnDefinitions="*, *" BackgroundColor="Black">
-            <Button Grid.Column="0" Text="Просмотреть" Margin="10" Clicked="Go"/>
-            <Button Grid.Column="1" Text="Удалить" Margin="10" Clicked="Delete"/>
+        <Grid ColumnDefinitions="*, *" BackgroundColor="Black" Grid.Row="1">
+            <Button Grid.Column="0" Text="Просмотреть" Clicked="Go"/>
+            <Button Grid.Column="1" Text="Удалить" Clicked="Delete"/>
         </Grid>
-    </StackLayout>
+    </Grid>
     
 </ContentPage>

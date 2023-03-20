@@ -8,6 +8,7 @@ namespace PicApp.Models
     {
         public string Name { get; set; }
         public string FullPath { get; set; }
+        public DateTime CreateTime { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -15,6 +16,7 @@ namespace PicApp.Models
             {
                 if (Name != picture.Name) return false;
                 if (FullPath != picture.FullPath) return false;
+                if (CreateTime != picture.CreateTime) return false;
                 return true;
             }
             return false;
