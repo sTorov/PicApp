@@ -11,6 +11,11 @@
                 <Setter Property="BackgroundColor" Value="{ext:Argb A=30,R=150,G=150,B=150}"/>
                 <Setter Property="TextColor" Value="WhiteSmoke"/>
             </Style>
+
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="TextColor" Value="{ext:Argb A=255,R=200,G=200,B=200}"/>
+            </Style>
             
             <Style x:Key="StackLayoutVisualState" TargetType="StackLayout">
                 <Setter Property="VisualStateManager.VisualStateGroups">

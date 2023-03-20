@@ -13,10 +13,4 @@
                VerticalOptions="Center" 
                Padding="20,0"/>
     </Grid>
-
-    <!--<StackLayout x:Name="stackLayout" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                 Grid.Row="0">
-        <Image Source="{Binding Picture.FullPath}"
-               HeightRequest="{Binding Source={x:Reference stackLayout}, Path=Height}"/>
-    </StackLayout>-->
 </ContentPage>
