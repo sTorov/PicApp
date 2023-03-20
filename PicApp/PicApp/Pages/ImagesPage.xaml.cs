@@ -156,7 +156,6 @@ namespace PicApp.Pages
             var imgPath = new ImageSourceConverter().ConvertToInvariantString((_selectedItem.Children[0] as Image).Source);
             if (File.Exists(imgPath))
                 File.Delete(imgPath);
-            
 
             var deletedPic = App.Mapper.Map<Picture>(new FileInfo(imgPath));
             Pictures.Remove(deletedPic);
